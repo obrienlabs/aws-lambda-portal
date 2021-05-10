@@ -5,7 +5,7 @@ $(document).ready(function() {
 	    e.preventDefault();                          
 	    var name = $("#name").val(),                     
 	    email = $("#email").val(),                     
-	    message = $("#message").val();                          
+	    metadata = $("#metadata").val();                          
 	    $.ajax({                     
 	        type: "POST",                     
 	        url: 'https://o2d2a1yr22.execute-api.us-west-2.amazonaws.com/test', 
@@ -13,12 +13,12 @@ $(document).ready(function() {
 	        data: JSON.stringify({                         
 	            'name': name,                         
 	            'email': email,                         
-	            'message': message                     
+	            'metadata': metadata                     
 	            }),                     
 	            success: function(res){                         
-	                $('#form-response').html('<div class="alert alert-info" role="alert">Welcome to the queue! Your path will begin shortly...</div>');},                     
+	                $('#form-response').html('<div class="alert alert-info" role="alert">Processing your upload...</div>');},                     
 	                error: function(){
-	                	   $('#form-response').html('<div class="alert alert-info" role="alert">Something went wrong... We are working on it!</div>');                     }}); }) });      
+	                	   $('#form-response').html('<div class="alert alert-info" role="alert">Issues with your upload....</div>');                     }}); }) });      
 </script>
 <!--THIS IS WHERE DATA IS PULLED FROM S3 TO API TO LAMBDA TO SES-->
 <div class="form-label-group"> 
@@ -29,7 +29,7 @@ $(document).ready(function() {
 <input type="text" id="email" class="form-control" required> 
 <label for="email" class="control-label">Email address</label> </div> 
 <div class="form-label-group"> 
-<textarea id="message" name="message" rows="3" class="form-control" placeholder="Message2"></textarea>
+<textarea id="metadata" name="metadata" rows="3" class="form-control" placeholder="metadata"></textarea>
 </div> 
 <div id="form-response"></div> 
 <button class="btn btn-lg btn-primary btn-block" id="submit" type="submit" style="background-color:#28547C;">Request Demo</button>
