@@ -7,15 +7,17 @@ $(document).ready(function() {
 	    var name = $("#name").val(),                     
 	    email = $("#email").val(),                     
 	    metadata = $("#metadata").val();
+	    var presigned;
 	    
 	    // get presigned url - turn on/deploy CORS on the APIGW end
-        // PUT file to S3 
+
 	    $.ajax({                     
 	            type: "GET",                     
 	            url: 'https://kvzryfi6hc.execute-api.us-west-2.amazonaws.com/test',  
 	            contentType: 'application/json',
 	                success: function(res){   
-	                	
+	                	presigned=res.upload_url;
+	                	alert(presigned);
 	                    $('#presignedurl').html('<div class="alert alert-info" role="alert">' 
 	                    		+ res.upload_url
 	                    		+ '</div>');},                     
@@ -24,6 +26,9 @@ $(document).ready(function() {
 	                           }
 	                    });       
         
+        // PUT file to S3 
+	    //Screen Shot 2021-05-07 at 14.20.00.png
+	    
 	    
         // post message and email on upload starting	    
 	    $.ajax({                     
