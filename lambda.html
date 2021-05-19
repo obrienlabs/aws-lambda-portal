@@ -6,9 +6,28 @@ $(document).ready(function() {
 	    e.preventDefault();                          
 	    var name = $("#name").val(),                     
 	    email = $("#email").val(),                     
-	    metadata = $("#metadata").val();                          
+	    metadata = $("#metadata").val();
+	    
+	    // get presigned url - turn on/deploy CORS on the APIGW end
+        // PUT file to S3 
 	    $.ajax({                     
-	        type: "POST",                     
+	            type: "GET",                     
+	            url: 'https://kvzryfi6hc.execute-api.us-west-2.amazonaws.com/test',  
+	            contentType: 'application/json',
+	                success: function(res){   
+	                	
+	                    $('#presignedurl').html('<div class="alert alert-info" role="alert">' 
+	                    		+ res.upload_url
+	                    		+ '</div>');},                     
+	                    error: function(){
+	                           $('#presignedurl').html('<div class="alert alert-info" role="alert">Issues with your signed URL....</div>');                     
+	                           }
+	                    });       
+        
+	    
+        // post message and email on upload starting	    
+	    $.ajax({                     
+	        type: "POST",                   
 	        url: 'https://o2d2a1yr22.execute-api.us-west-2.amazonaws.com/test', 
 	        contentType: 'application/json',      
 	        data: JSON.stringify({                         
@@ -19,7 +38,11 @@ $(document).ready(function() {
 	            success: function(res){                         
 	                $('#form-response').html('<div class="alert alert-info" role="alert">Processing your upload...</div>');},                     
 	                error: function(){
-	                	   $('#form-response').html('<div class="alert alert-info" role="alert">Issues with your upload....</div>');                     }}); }) });      
+	                	   $('#form-response').html('<div class="alert alert-info" role="alert">Issues with your upload....</div>');                     
+	                	   }
+	                });
+        }) 
+        });      
 </script>
 <form method="post" action="" enctype="multipart/form-data" id="myform">
 <div class="form-label-group"> 
@@ -32,6 +55,7 @@ $(document).ready(function() {
 <div class="form-label-group"> 
 <textarea id="metadata" name="metadata" rows="5" class="form-control" placeholder="metadata"></textarea>
 </div> 
+<div id="presignedurl"></div> 
 <div id="form-response"></div> 
 <button class="btn btn-lg btn-primary btn-block" id="submit" type="submit" style="background-color:#28547C;">upload</button>
 <div>
